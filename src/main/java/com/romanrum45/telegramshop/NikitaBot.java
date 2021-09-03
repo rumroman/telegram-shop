@@ -1,6 +1,7 @@
 package com.romanrum45.telegramshop;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceResourceBundle;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -9,16 +10,17 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import static com.romanrum45.telegramshop.TextConstants.*;
 
 @RequiredArgsConstructor
 public class NikitaBot extends TelegramLongPollingBot {
 
-
-
     private final String name;
     private final String token;
+
+    private final ResourceBundle resourceBundle;
 
     @Override
     public String getBotUsername() {
@@ -58,7 +60,7 @@ public class NikitaBot extends TelegramLongPollingBot {
 
             sendMessage.setReplyMarkup(this.getMainMenuKeyboard());
             sendMessage.setChatId(chatId.toString());
-            sendMessage.setText("${use-keyboard}");
+            sendMessage.setText(this.resourceBundle.getString("use-keyboard"));
 
             try {
                 execute(sendMessage);
