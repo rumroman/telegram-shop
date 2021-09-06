@@ -1,9 +1,16 @@
 package com.romanrum45.telegramshop.service;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@RequiredArgsConstructor
 public class Product {
 
-    private String name;
+    private final String name;
+
+    public String getName() {
+        return this.name;
+    }
+
+
 }

@@ -1,7 +1,7 @@
 package com.romanrum45.telegramshop;
 
-import com.romanrum45.telegramshop.repository.PaymentTransactionEntity;
-import com.romanrum45.telegramshop.repository.PaymentTransactionRepository;
+import com.romanrum45.telegramshop.customer.PaymentTransactionEntity;
+import com.romanrum45.telegramshop.customer.PaymentTransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

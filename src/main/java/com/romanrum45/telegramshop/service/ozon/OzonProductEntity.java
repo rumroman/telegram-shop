@@ -7,10 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @Data
-@Document(collection = "ozonProduct")
 public class OzonProductEntity {
 
-    @Id
-    private String id;
+    private String path;
+
+    private OzonType ozonType;
 
 }

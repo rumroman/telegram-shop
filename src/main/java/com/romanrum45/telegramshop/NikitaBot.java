@@ -1,9 +1,10 @@
 package com.romanrum45.telegramshop;
 
+import com.romanrum45.telegramshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.support.MessageSourceResourceBundle;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -22,6 +23,8 @@ public class NikitaBot extends TelegramLongPollingBot {
 
     private final ResourceBundle resourceBundle;
 
+    private final ProductService ozonService;
+
     @Override
     public String getBotUsername() {
         return name;
@@ -37,23 +40,26 @@ public class NikitaBot extends TelegramLongPollingBot {
         if(update.hasMessage() && update.getMessage().hasText()) {
             var receiveMessage = update.getMessage().getText().trim();
             var chatId = update.getMessage().getChatId();
+            var message = update.getMessage();
             var sendMessage = new SendMessage();
+
 
             switch (receiveMessage) {
                 case BUY_COMMAND:
-                    break;
+                    this.handleBuyCommand(message);
+                    return;
                 case GOODS_COMMAND:
-                    break;
+                    return;
                 case ACCOUNT_COMMAND:
-                    break;
+                    return;
                 case BALANCE_COMMAND:
-                    break;
+                    return;
                 case HELP_COMMAND:
-                    break;
+                    return;
                 case RULES_COMMAND:
-                    break;
+                    return;
                 case MAIN_COMMAND:
-                    break;
+                    return;
                 default:
                     break;
             }
@@ -62,6 +68,12 @@ public class NikitaBot extends TelegramLongPollingBot {
             sendMessage.setChatId(chatId.toString());
             sendMessage.setText(this.resourceBundle.getString("use-keyboard"));
 
+
+//            var sendDocument = new SendDocument();
+//            sendDocument.setChatId(chatId.toString());
+//            sendDocument.setDocument();
+
+
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
@@ -69,6 +81,35 @@ public class NikitaBot extends TelegramLongPollingBot {
             }
         }
     }
+
+    private void handleBuyCommand(Message message) {
+        var sendMessage = new SendMessage();
+        var listRow = new ArrayList<KeyboardRow>();
+        if (!this.ozonService.getProductsInStock().isEmpty()) {
+            var row = new KeyboardRow();
+            row.add(this.ozonService.getNameProduct());
+            var replyKeyboard = new ReplyKeyboardMarkup(listRow);
+            replyKeyboard.setResizeKeyboard(true);
+            sendMessage.setReplyMarkup(replyKeyboard);
+            sendMessage.setText(this.resourceBundle.getString("buy"));
+        } else {
+            sendMessage.setText(this.resourceBundle.getString("no-products"));
+        }
+
+        sendMessage.setChatId(message.getChatId().toString());
+
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void receiveOzonFile(Message message) {
+
+    }
+
+
 
     private ReplyKeyboardMarkup getMainMenuKeyboard() {
         var listRow = new ArrayList<KeyboardRow>();

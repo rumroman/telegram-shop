@@ -1,4 +1,4 @@
-package com.romanrum45.telegramshop.repository;
+package com.romanrum45.telegramshop.customer;
 
 import lombok.Builder;
 import lombok.Data;

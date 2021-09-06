@@ -12,6 +12,7 @@ public class TextConstants {
     public final static String HELP_COMMAND = "Помощь";
     public final static String RULES_COMMAND = "Правила";
     public final static String MAIN_COMMAND = "Вернуться в главное меню";
+    public final static String SERVICE_COMMAND = "JIkd8934_5Ndfjie_394&$323jkdeJkdldirtOutHgjEdgumtdfjld-e5";
 
     public final static String USE_KEYBOARD = "Воспользуйтесь клавиатурой";
 
