@@ -14,7 +14,7 @@ public class AccountEntity {
     private String chatId;
 
     // Баланс в рублях
-    private int balance;
+    private double balance;
 
     // Потраченная сумма
     private int deposits;

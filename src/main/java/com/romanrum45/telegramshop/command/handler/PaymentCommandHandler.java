@@ -110,9 +110,9 @@ public class PaymentCommandHandler implements CommandHandler {
                 this.yandexAccount, chatId, chatId, sum1000);
         pay1000Btn.setUrl(url1000);
 
-        var list1 = List.of(pay30Btn, pay50Btn, pay100Btn);
-        var list2 = List.of(pay250Btn, pay500Btn);
-        var list3 = List.of(pay1000Btn);
+        var list1 = List.of(pay30Btn, pay50Btn);
+        var list2 = List.of(pay100Btn, pay250Btn);
+        var list3 = List.of(pay500Btn, pay1000Btn);
 
         inlineKeyboard.setKeyboard(List.of(list1, list2, list3));
 

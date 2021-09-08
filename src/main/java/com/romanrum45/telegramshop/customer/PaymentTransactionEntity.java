@@ -19,6 +19,11 @@ public class PaymentTransactionEntity {
     private String operationId;
 
     /**
+     * Идентификатор чата.
+     */
+    private String chatId;
+
+    /**
      * Для переводов из кошелька — p2p-incoming
      * Для переводов с произвольной карты — card-incoming.
      */

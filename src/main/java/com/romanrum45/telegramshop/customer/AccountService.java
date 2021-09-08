@@ -2,6 +2,7 @@ package com.romanrum45.telegramshop.customer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 
@@ -14,9 +15,9 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
 
-    public int getBalance(String chatId) {
+    public String getBalance(String chatId) {
         return this.accountRepository.findById(chatId)
-                .map(AccountEntity::getBalance)
+                .map(accountEntity -> String.format("%.2f", accountEntity.getBalance()))
                 .orElseThrow();
     }
 
@@ -30,6 +31,19 @@ public class AccountService {
         return this.accountRepository.findById(chatId)
                 .map(AccountEntity::getNickname)
                 .orElseThrow();
+    }
+
+
+    /**
+     * amount может быть как положительным числом, так и отрицательным в зависимости от операции.
+     * @param chatId идентификатор чата пользователя.
+     * @param amount сумма списани/зачисления.
+     */
+    public synchronized void updateBalance(String chatId, double amount) {
+        var account = this.accountRepository.findById(chatId).orElseThrow();
+        var currentBalance = account.getBalance();
+        account.setBalance(currentBalance + amount);
+        this.accountRepository.save(account);
     }
 
     public boolean exists(String chatId) {

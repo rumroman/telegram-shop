@@ -3,8 +3,11 @@ package com.romanrum45.telegramshop;
 import com.romanrum45.telegramshop.bot.NikitaBot;
 import com.romanrum45.telegramshop.command.handler.CommandHandler;
 import com.romanrum45.telegramshop.command.handler.MainCommandHandler;
+import com.romanrum45.telegramshop.command.handler.PaymentCommandHandler;
 import com.romanrum45.telegramshop.customer.AccountRepository;
 import com.romanrum45.telegramshop.customer.AccountService;
+import com.romanrum45.telegramshop.customer.PaymentTransactionRepository;
+import com.romanrum45.telegramshop.customer.PaymentTransactionService;
 import com.romanrum45.telegramshop.service.ozon.FileOzonProductRepository;
 import com.romanrum45.telegramshop.service.ozon.OzonProductRepository;
 import com.romanrum45.telegramshop.service.ozon.OzonService;
@@ -22,11 +25,18 @@ public class DefaultConfiguration {
     public NikitaBot nikitaBot(@Value("${bot.name}") String botName,
                                @Value("${bot.token}") String token,
                                CommandHandler mainCommandHandler,
+                               CommandHandler paymentCommandHandler,
                                AccountService accountService) {
 
-        var commandHandlers = List.of(mainCommandHandler);
+        var commandHandlers = List.of(mainCommandHandler, paymentCommandHandler);
 
         return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService);
+    }
+
+    @Bean
+    public TestController testController(PaymentTransactionService paymentTransactionService,
+                                         @Value("${yandex-secret}") String notificationSecret) {
+        return new TestController(paymentTransactionService, notificationSecret);
     }
 
     @Bean
@@ -58,6 +68,18 @@ public class DefaultConfiguration {
                                              AccountService accountService,
                                              @Value("${support-user-name}") String supportUserName) {
         return new MainCommandHandler(ozonService, accountService, supportUserName);
+    }
+
+    @Bean
+    public CommandHandler paymentCommandHandler(@Value("${yandex-money-account}") String yandexAccount) {
+        return new PaymentCommandHandler(yandexAccount);
+    }
+
+    @Bean
+    public PaymentTransactionService paymentTransactionService(AccountService accountService,
+                                                               PaymentTransactionRepository paymentTransactionRepository,
+                                                               NikitaBot nikitaBot) {
+        return new PaymentTransactionService(accountService, paymentTransactionRepository, nikitaBot);
     }
 
 }
