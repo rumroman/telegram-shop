@@ -76,16 +76,47 @@ public class PaymentCommandHandler implements CommandHandler {
         pay30Btn.setUrl(url);
 
         var pay50Btn = new InlineKeyboardButton();
-        pay50Btn.setText(PAY_30_BUTTON);
+        pay50Btn.setText(PAY_50_BUTTON);
         var sum50 = String.format("%4f", 50 / 0.98);
         var url50 = String.format(Locale.ENGLISH, "https://money.yandex.ru/quickpay/confirm.xml?receiver=%s&formcomment=Пополнение+баланса+в+боте&label=%s&quickpay-form=donate&targets=Пополнение+баланса+для+аккаунта+%s&sum=%s",
                 this.yandexAccount, chatId, chatId, sum50);
         pay50Btn.setUrl(url50);
 
-        inlineKeyboard.setKeyboard();
+        var pay100Btn = new InlineKeyboardButton();
+        pay100Btn.setText(PAY_100_BUTTON);
+        var sum100 = String.format("%4f", 100 / 0.98);
+        var url100 = String.format(Locale.ENGLISH, "https://money.yandex.ru/quickpay/confirm.xml?receiver=%s&formcomment=Пополнение+баланса+в+боте&label=%s&quickpay-form=donate&targets=Пополнение+баланса+для+аккаунта+%s&sum=%s",
+                this.yandexAccount, chatId, chatId, sum100);
+        pay100Btn.setUrl(url100);
 
+        var pay250Btn = new InlineKeyboardButton();
+        pay250Btn.setText(PAY_250_BUTTON);
+        var sum250 = String.format("%4f", 250 / 0.98);
+        var url250 = String.format(Locale.ENGLISH, "https://money.yandex.ru/quickpay/confirm.xml?receiver=%s&formcomment=Пополнение+баланса+в+боте&label=%s&quickpay-form=donate&targets=Пополнение+баланса+для+аккаунта+%s&sum=%s",
+                this.yandexAccount, chatId, chatId, sum250);
+        pay250Btn.setUrl(url250);
 
-        return this.getSendMessage(replyKeyboard, ENTER_AMOUNT_MESSAGE, chatId);
+        var pay500Btn = new InlineKeyboardButton();
+        pay500Btn.setText(PAY_500_BUTTON);
+        var sum500 = String.format("%4f", 500 / 0.98);
+        var url500 = String.format(Locale.ENGLISH, "https://money.yandex.ru/quickpay/confirm.xml?receiver=%s&formcomment=Пополнение+баланса+в+боте&label=%s&quickpay-form=donate&targets=Пополнение+баланса+для+аккаунта+%s&sum=%s",
+                this.yandexAccount, chatId, chatId, sum500);
+        pay500Btn.setUrl(url500);
+
+        var pay1000Btn = new InlineKeyboardButton();
+        pay1000Btn.setText(PAY_1000_BUTTON);
+        var sum1000 = String.format("%4f", 1000 / 0.98);
+        var url1000 = String.format(Locale.ENGLISH, "https://money.yandex.ru/quickpay/confirm.xml?receiver=%s&formcomment=Пополнение+баланса+в+боте&label=%s&quickpay-form=donate&targets=Пополнение+баланса+для+аккаунта+%s&sum=%s",
+                this.yandexAccount, chatId, chatId, sum1000);
+        pay1000Btn.setUrl(url1000);
+
+        var list1 = List.of(pay30Btn, pay50Btn, pay100Btn);
+        var list2 = List.of(pay250Btn, pay500Btn);
+        var list3 = List.of(pay1000Btn);
+
+        inlineKeyboard.setKeyboard(List.of(list1, list2, list3));
+
+        return this.getSendMessage(inlineKeyboard, ENTER_AMOUNT_MESSAGE, chatId);
     }
 
     private SendMessage handleUpBalanceCommand(Message receivedMessage) {

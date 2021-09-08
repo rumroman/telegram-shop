@@ -165,8 +165,8 @@ public class MainCommandHandler implements CommandHandler {
         backRow.add(BACK_COMMAND);
         var row = new KeyboardRow();
         row.add(this.ozonService.getNameProduct());
-        listRow.add(backRow);
         listRow.add(row);
+        listRow.add(backRow);
         var replyKeyboard = new ReplyKeyboardMarkup(listRow);
         replyKeyboard.setResizeKeyboard(true);
 
