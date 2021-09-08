@@ -10,5 +10,7 @@ public interface ProductService {
 
     String getNameProduct();
 
+    String generateNameButton(String v1, int count, int price);
+
 
 }

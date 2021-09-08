@@ -14,9 +14,6 @@ public class FileOzonProductRepository implements OzonProductRepository {
     private final Path availableFilesPath;
     private final Path oldFilesPath;
 
-    private final String prefix;
-    private final String postfix;
-
     private static final String ACCOUNT_300 = "300_";
     private static final String ACCOUNT_600 = "600_";
     private static final String ACCOUNT_900 = "900_";
