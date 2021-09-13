@@ -174,7 +174,13 @@ public class MainCommandHandler implements CommandHandler {
     }
 
     private SendMessage handleGoodsCommand(Message receivedMessage) {
-        return this.unsupportedCommand(receivedMessage);
+        var availableGoodsText = new StringBuilder();
+        var ozonProducts = this.ozonService.getProductsInStock();
+        if (!ozonProducts.isEmpty()) {
+            availableGoodsText.append("--- Баллы OZON ---\n");
+            ozonProducts.forEach(ozon -> availableGoodsText.append(ozon.generateNameButton()));
+        }
+        return this.getSendMessage(null, availableGoodsText.toString(), receivedMessage.getChatId().toString());
     }
 
     private ReplyKeyboardMarkup getMainMenuKeyboard() {

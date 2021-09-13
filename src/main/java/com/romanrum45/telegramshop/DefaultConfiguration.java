@@ -3,6 +3,7 @@ package com.romanrum45.telegramshop;
 import com.romanrum45.telegramshop.bot.NikitaBot;
 import com.romanrum45.telegramshop.command.handler.CommandHandler;
 import com.romanrum45.telegramshop.command.handler.MainCommandHandler;
+import com.romanrum45.telegramshop.command.handler.OzonCommandHandler;
 import com.romanrum45.telegramshop.command.handler.PaymentCommandHandler;
 import com.romanrum45.telegramshop.customer.AccountRepository;
 import com.romanrum45.telegramshop.customer.AccountService;
@@ -26,9 +27,10 @@ public class DefaultConfiguration {
                                @Value("${bot.token}") String token,
                                CommandHandler mainCommandHandler,
                                CommandHandler paymentCommandHandler,
+                               CommandHandler ozonCommandHandler,
                                AccountService accountService) {
 
-        var commandHandlers = List.of(mainCommandHandler, paymentCommandHandler);
+        var commandHandlers = List.of(mainCommandHandler, paymentCommandHandler, ozonCommandHandler);
 
         return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService);
     }
@@ -73,6 +75,14 @@ public class DefaultConfiguration {
     @Bean
     public CommandHandler paymentCommandHandler(@Value("${yandex-money-account}") String yandexAccount) {
         return new PaymentCommandHandler(yandexAccount);
+    }
+
+    @Bean
+    public CommandHandler ozonCommandHandler(OzonService ozonService,
+                                             @Value("${ozon-id-300}") String _300Id,
+                                             @Value("${ozon-id-600}") String _600Id,
+                                             @Value("${ozon-id-900}") String _900Id) {
+        return new OzonCommandHandler(ozonService, _300Id, _600Id, _900Id);
     }
 
     @Bean

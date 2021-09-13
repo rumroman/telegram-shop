@@ -18,7 +18,7 @@ public class TelegramShopService {
         return productServices.stream()
                 .filter(productService -> !productService.getProductsInStock().isEmpty())
                 .flatMap(productService -> productService.getProductsInStock().stream())
-                .map(Product::getName)
+                .map(OzonProduct::getName)
                 .collect(Collectors.toList());
     }
 
