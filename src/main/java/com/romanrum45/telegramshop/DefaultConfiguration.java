@@ -28,11 +28,13 @@ public class DefaultConfiguration {
                                CommandHandler mainCommandHandler,
                                CommandHandler paymentCommandHandler,
                                CommandHandler ozonCommandHandler,
-                               AccountService accountService) {
+                               AccountService accountService,
+                               @Value("${support-user-id}") String userId,
+                               @Value("${support-secret-caption}") String secretCaption) {
 
         var commandHandlers = List.of(mainCommandHandler, paymentCommandHandler, ozonCommandHandler);
 
-        return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService);
+        return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService, userId, secretCaption);
     }
 
     @Bean
@@ -78,11 +80,11 @@ public class DefaultConfiguration {
     }
 
     @Bean
-    public CommandHandler ozonCommandHandler(OzonService ozonService,
+    public CommandHandler ozonCommandHandler(OzonService ozonService, AccountService accountService,
                                              @Value("${ozon-id-300}") String _300Id,
                                              @Value("${ozon-id-600}") String _600Id,
                                              @Value("${ozon-id-900}") String _900Id) {
-        return new OzonCommandHandler(ozonService, _300Id, _600Id, _900Id);
+        return new OzonCommandHandler(ozonService, accountService, _300Id, _600Id, _900Id);
     }
 
     @Bean

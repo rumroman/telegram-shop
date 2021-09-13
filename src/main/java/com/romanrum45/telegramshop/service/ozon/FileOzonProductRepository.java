@@ -1,13 +1,17 @@
 package com.romanrum45.telegramshop.service.ozon;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 public class FileOzonProductRepository implements OzonProductRepository {
 
@@ -51,5 +55,32 @@ public class FileOzonProductRepository implements OzonProductRepository {
         }
 
         return List.of();
+    }
+
+    public Optional<File> getOzonProductFile(OzonType ozonType) {
+        try {
+            return Files.list(this.availableFilesPath).filter(path -> {
+                if (ozonType.equals(OzonType.ACCOUNT_300)) {
+                    return path.getFileName().toString().startsWith("300");
+                } else if (ozonType.equals(OzonType.ACCOUNT_600)) {
+                    return path.getFileName().toString().startsWith("600");
+                } else if (ozonType.equals(OzonType.ACCOUNT_900)) {
+                    return path.getFileName().toString().startsWith("900");
+                }
+                return false;
+            }).map(Path::toFile).findFirst();
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("Ошибка в извлечении и передачи файла, тип озон файла: {}", ozonType.name());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean saveOzonProductFile(String fileName, OzonType ozonType) {
+//        if (Files.ex)
+//        var file = new File(ava
+//        return false;
+        return false;
     }
 }

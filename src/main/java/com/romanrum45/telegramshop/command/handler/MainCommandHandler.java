@@ -95,6 +95,16 @@ public class MainCommandHandler implements CommandHandler {
         return this.commands.contains(command);
     }
 
+    @Override
+    public SendMessage getSupportText(String chatId) {
+        throw new UnsupportedOperationException("Метод не поддерживается");
+    }
+
+    @Override
+    public SendMessage notificationSupportUser(String message, String userId) {
+        return null;
+    }
+
     private SendMessage handleDepositsCommand(Message receivedMessage) {
         return this.unsupportedCommand(receivedMessage);
     }

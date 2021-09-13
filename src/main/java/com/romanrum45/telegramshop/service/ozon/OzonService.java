@@ -5,8 +5,10 @@ import com.romanrum45.telegramshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -45,6 +47,15 @@ public class OzonService implements ProductService {
             products.add(product900);
         }
         return products;
+    }
+
+    public Optional<File> getOzonFile(OzonType ozonType) {
+        return this.ozonProductRepository.getOzonProductFile(ozonType);
+    }
+
+    public boolean uploadOzonFile(OzonType ozonType) {
+//        return this.ozonProductRepository.saveOzonProductFile(ozonType);
+        return false;
     }
 
     @Override

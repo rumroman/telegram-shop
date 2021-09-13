@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class AccountService {
 
     public String getBalance(String chatId) {
         return this.accountRepository.findById(chatId)
-                .map(accountEntity -> String.format("%.2f", accountEntity.getBalance()))
+                .map(accountEntity -> String.format(Locale.ENGLISH, "%.2f", accountEntity.getBalance()))
                 .orElseThrow();
     }
 
