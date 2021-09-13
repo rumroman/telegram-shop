@@ -140,16 +140,16 @@ public class MainCommandHandler implements CommandHandler {
         var accountMessage = String.format(Locale.ENGLISH, "Ваш профиль:\n" +
                         "   Ваш ID: %s\n" +
                         "   Ваш никнейм: %s\n" +
-                        "   Ваш текущий баланс: %s руб.\n" +
-                        "   Покупок на сумму: %d руб.",
-                chatId, this.accountService.getNickname(chatId), this.accountService.getBalance(chatId),
-                this.accountService.getDepositsSum(chatId));
+                        "   Ваш текущий баланс: %s руб.",
+//                        "   Покупок на сумму: %d руб.",
+                chatId, this.accountService.getNickname(chatId), this.accountService.getBalance(chatId));
+//                this.accountService.getDepositsSum(chatId));
 
         var listRow = new ArrayList<KeyboardRow>();
-        var row = new KeyboardRow();
-        row.add(DEPOSITS_COMMAND);
-        row.add(PURCHASES_COMMAND);
-        listRow.add(row);
+//        var row = new KeyboardRow();
+//        row.add(DEPOSITS_COMMAND);
+//        row.add(PURCHASES_COMMAND);
+//        listRow.add(row);
         var mainRow = new KeyboardRow();
         mainRow.add(MAIN_COMMAND);
         listRow.add(mainRow);
