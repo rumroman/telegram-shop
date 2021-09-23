@@ -29,7 +29,7 @@ public class PaymentTransactionService {
 
             try {
                 nikitaBot.execute(sendMessage);
-                log.info("Transaction saved: ", paymentTransactionEntity);
+                log.info("Transaction saved: {}", paymentTransactionEntity);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
