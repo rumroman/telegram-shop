@@ -17,17 +17,22 @@ public class PaymentTransactionService {
 
 
     public void paymentReceived(PaymentTransactionEntity paymentTransactionEntity) {
-        this.paymentTransactionRepository.save(paymentTransactionEntity);
-        this.accountService.updateBalance(paymentTransactionEntity.getChatId(),
-                Double.parseDouble(paymentTransactionEntity.getAmount()));
-        var sendMessage = new SendMessage();
-        sendMessage.setChatId(paymentTransactionEntity.getChatId());
-        sendMessage.setText("Баланс пополнен на " + paymentTransactionEntity.getAmount() + " руб.");
+        if (this.paymentTransactionRepository.existsById(paymentTransactionEntity.getOperationId())) {
+            log.info("Transaction: the operationId {} already exists!", paymentTransactionEntity.getOperationId());
+        } else {
+            this.paymentTransactionRepository.save(paymentTransactionEntity);
+            this.accountService.updateBalance(paymentTransactionEntity.getChatId(),
+                    Double.parseDouble(paymentTransactionEntity.getAmount()));
+            var sendMessage = new SendMessage();
+            sendMessage.setChatId(paymentTransactionEntity.getChatId());
+            sendMessage.setText("Баланс пополнен на " + paymentTransactionEntity.getAmount() + " руб.");
 
-        try {
-            nikitaBot.execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+            try {
+                nikitaBot.execute(sendMessage);
+                log.info("Transaction saved: ", paymentTransactionEntity);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 
