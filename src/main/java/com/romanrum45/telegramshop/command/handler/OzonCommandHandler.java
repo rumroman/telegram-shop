@@ -91,7 +91,48 @@ public class OzonCommandHandler implements CommandHandler {
     }
 
     private synchronized PartialBotApiMethod<Message> handle600Id(Message receivedMessage) {
-        return null;
+        var chatId = receivedMessage.getChatId().toString();
+        var listRow = new ArrayList<KeyboardRow>();
+        var mainRow = new KeyboardRow();
+        mainRow.add(MAIN_MENU_ROW);
+        listRow.add(mainRow);
+
+        var responseMessage = "";
+
+        var ozon600ProductOptional = this.ozonService.getProductsInStock()
+                .stream().filter(ozon -> ozon.getType().equals("600"))
+                .filter(ozon -> ozon.getCount() > 0)
+                .findFirst();
+
+        if (ozon600ProductOptional.isPresent()) {
+            var ozon600Product = ozon600ProductOptional.get();
+            var balance = this.accountService.getBalance(chatId);
+            if (Double.parseDouble(balance) >= ozon600Product.getPrice()) {
+                var ozonFileOptional = this.ozonService.getOzonFile(OzonType.ACCOUNT_600);
+                if (ozonFileOptional.isPresent()) {
+                    var ozonFile = ozonFileOptional.get();
+                    var tempName = ozonFile.getName().replace(".json" , "");
+                    var id = tempName.substring(4);
+                    var caption = "Наименование: OZON | 600 баллов\n" +
+                            "Время покупки: " + LocalDateTime.now() +
+                            "\nКоличество: 1шт.\n" +
+                            "ID: " + id;
+                    accountService.updateBalance(chatId, -ozon600Product.getPrice());
+                    return this.getSendDocument(ozonFile, caption, chatId);
+                } else {
+                    log.error("Не удалось найти файл 600 бонусов");
+                    responseMessage = ERROR_MESSAGE;
+                }
+            } else {
+                responseMessage = NOT_MONEY_MESSAGE;
+            }
+        } else {
+            responseMessage = ERROR_MESSAGE;
+        }
+        var replyKeyboard = new ReplyKeyboardMarkup(listRow);
+        replyKeyboard.setResizeKeyboard(true);
+
+        return getSendMessage(replyKeyboard, responseMessage, chatId);
     }
 
     private synchronized PartialBotApiMethod<Message> handle300Id(Message receivedMessage) {
