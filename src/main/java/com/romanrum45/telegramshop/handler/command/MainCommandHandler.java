@@ -1,4 +1,4 @@
-package com.romanrum45.telegramshop.command.handler;
+package com.romanrum45.telegramshop.handler.command;
 
 import com.romanrum45.telegramshop.customer.AccountService;
 import com.romanrum45.telegramshop.service.ozon.OzonService;
@@ -62,32 +62,38 @@ public class MainCommandHandler implements CommandHandler {
 
     @Override
     public SendMessage handle(Update update) {
-        var receivedMessage = update.getMessage().getText().trim();
         var message = update.getMessage();
-        switch (receivedMessage) {
-            case BUY_COMMAND:
-                return this.handleBuyCommand(message);
-            case GOODS_COMMAND:
-                return this.handleGoodsCommand(message);
-            case ACCOUNT_COMMAND:
-                return this.handleAccountCommand(message);
-            case BALANCE_COMMAND:
-                return this.handleBalanceCommand(message);
-            case HELP_COMMAND:
-                return this.handleHelpCommand(message);
-            case RULES_COMMAND:
-                return this.handleRulesCommand(message);
-            case MAIN_COMMAND:
-                return this.handleMainCommand(message);
-            case PURCHASES_COMMAND:
-                return this.handlePurchasesCommand(message);
-            case DEPOSITS_COMMAND:
-                return this.handleDepositsCommand(message);
-            case BACK_COMMAND:
-                return this.handleMainCommand(message);
-            default:
-                return this.getSendMessage(this.getMainMenuKeyboard(), USE_KEYBOARD_MESSAGE, message.getChatId().toString());
+        if (message.hasText()) {
+            var receivedMessage = update.getMessage().getText().trim();
+            switch (receivedMessage) {
+                case BUY_COMMAND:
+                    return this.handleBuyCommand(message);
+                case GOODS_COMMAND:
+                    return this.handleGoodsCommand(message);
+                case ACCOUNT_COMMAND:
+                    return this.handleAccountCommand(message);
+                case BALANCE_COMMAND:
+                    return this.handleBalanceCommand(message);
+                case HELP_COMMAND:
+                    return this.handleHelpCommand(message);
+                case RULES_COMMAND:
+                    return this.handleRulesCommand(message);
+                case MAIN_COMMAND:
+                    return this.handleMainCommand(message);
+                case PURCHASES_COMMAND:
+                    return this.handlePurchasesCommand(message);
+                case DEPOSITS_COMMAND:
+                    return this.handleDepositsCommand(message);
+                case BACK_COMMAND:
+                    return this.handleMainCommand(message);
+                default:
+                    return this.getSendMessage(this.getMainMenuKeyboard(), USE_KEYBOARD_MESSAGE, message.getChatId().toString());
+            }
+        } else {
+            return this.getSendMessage(this.getMainMenuKeyboard(), USE_KEYBOARD_MESSAGE, message.getChatId().toString());
+
         }
+
     }
 
     @Override

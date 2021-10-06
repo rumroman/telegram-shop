@@ -1,10 +1,9 @@
-package com.romanrum45.telegramshop.command.handler;
+package com.romanrum45.telegramshop.handler.command;
 
 import com.romanrum45.telegramshop.customer.AccountService;
 import com.romanrum45.telegramshop.service.ozon.OzonService;
 import com.romanrum45.telegramshop.service.ozon.OzonType;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

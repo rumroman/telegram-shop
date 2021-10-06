@@ -1,4 +1,4 @@
-package com.romanrum45.telegramshop.command.handler;
+package com.romanrum45.telegramshop.handler.command;
 
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -145,7 +145,7 @@ public class PaymentCommandHandler implements CommandHandler {
 
     @Override
     public SendMessage notificationSupportUser(String message, String userId) {
-        return null;
+        throw new UnsupportedOperationException("Метод не поддерживается");
     }
 
     private SendMessage getSendMessage(ReplyKeyboard replyKeyboard, String message, String chatId) {

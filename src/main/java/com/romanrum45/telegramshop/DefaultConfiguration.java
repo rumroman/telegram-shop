@@ -1,10 +1,10 @@
 package com.romanrum45.telegramshop;
 
 import com.romanrum45.telegramshop.bot.NikitaBot;
-import com.romanrum45.telegramshop.command.handler.CommandHandler;
-import com.romanrum45.telegramshop.command.handler.MainCommandHandler;
-import com.romanrum45.telegramshop.command.handler.OzonCommandHandler;
-import com.romanrum45.telegramshop.command.handler.PaymentCommandHandler;
+import com.romanrum45.telegramshop.handler.command.CommandHandler;
+import com.romanrum45.telegramshop.handler.command.MainCommandHandler;
+import com.romanrum45.telegramshop.handler.command.OzonCommandHandler;
+import com.romanrum45.telegramshop.handler.command.PaymentCommandHandler;
 import com.romanrum45.telegramshop.customer.AccountRepository;
 import com.romanrum45.telegramshop.customer.AccountService;
 import com.romanrum45.telegramshop.customer.PaymentTransactionRepository;
@@ -30,11 +30,13 @@ public class DefaultConfiguration {
                                CommandHandler ozonCommandHandler,
                                AccountService accountService,
                                @Value("${support-user-id}") String userId,
-                               @Value("${support-secret-caption}") String secretCaption) {
+                               @Value("${support-secret-caption}") String secretCaption,
+                               @Value ("${available-files-path}") String ozonFilePath) {
 
         var commandHandlers = List.of(mainCommandHandler, paymentCommandHandler, ozonCommandHandler);
 
-        return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService, userId, secretCaption);
+        return new NikitaBot(botName, token, commandHandlers, mainCommandHandler, accountService, userId, secretCaption,
+                ozonFilePath);
     }
 
     @Bean
